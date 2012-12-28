@@ -100,15 +100,11 @@ var app = {
 		
 		if (window.DeviceOrientationEvent) {
 		 alert("DeviceOrientation is supported");
-		  window.addEventListener('deviceorientation', function(eventData) {
-				var LR = eventData.gamma;
-				var FB = eventData.beta;
-				var DIR = eventData.alpha;
-				this.deviceOrientationHandler(LR, FB, DIR);
-			}, false);
-		} else {
-			alert("Not supported on your device or browser.  Sorry.");
-		}		
+		} else if (window.OrientationEvent) {
+		 alert("MozOrientation is supported");
+		}else{
+			alert("Orientation is Not supported");
+		}
 		
 	},
 	
