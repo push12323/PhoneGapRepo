@@ -47,7 +47,7 @@ var app = {
 		// Update acceleration every 3 seconds
 		var options = { frequency: 3000 };		
 		
-		watchID = navigator.compass.watchHeading(app.onSuccess(), app.onError(), options);
+		watchID = navigator.compass.watchHeading(this.onSuccess, this.onError, options);
 		firstCheck = true;
     },
 	
