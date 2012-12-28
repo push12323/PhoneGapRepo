@@ -60,13 +60,14 @@ var app = {
 	
 	onSuccess: function(acceleration) {
         
-		alert(currAcc);
+		//alert(currAcc);
 	
 		prevAcc = currAcc;
 		currAcc = acceleration;
 		
 		var element = document.getElementById("accelerometer");
 		element.innerHTML = 'Acceleration X: ' + Math.round(acceleration.x) + '<br />' +
+							'currAcc Acceleration: ' + Math.round(currAcc.x)+"/"+ Math.round(currAcc.x) + '<br />' +
 							'Acceleration Y: ' + Math.round(acceleration.y) + '<br />' +
 							'Acceleration Z: ' + Math.round(acceleration.z) + '<br />' +
 							'Timestamp: '      + Math.round(acceleration.timestamp) + '<br />';
