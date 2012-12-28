@@ -27,6 +27,8 @@ var app = {
         // This is an event handler function, which means the scope is the event.
         // So, we must explicitly called `app.report()` instead of `this.report()`.
 		var firstCheck = false;
+		var startVal;
+		var difference;
         app.report('deviceready');
     },
     report: function(id) {
@@ -48,7 +50,9 @@ var app = {
 		var options = { frequency: 3000 };		
 		
 		watchID = navigator.compass.watchHeading(this.onSuccess, this.onError, options);
+		
 		firstCheck = true;
+		
     },
 	
 	// Stop watching the acceleration
@@ -62,9 +66,25 @@ var app = {
 	
 	// onSuccess: Success to get the acceleration
 	onSuccess: function(heading) {
-        var element = document.getElementById('heading');
-        element.innerHTML = 'Heading: ' + heading.magneticHeading;
-		alert("firstCheck: " + firstCheck);
+        
+		currVal = heading.magneticHeading;	
+		
+		if(firstCheck)
+		{
+			startVal = currVal;
+		}
+			
+		firstCheck = false;
+		
+		difference = startVal-currVal;
+		
+		var element = document.getElementById('heading');
+        element.innerHTML = 'Heading: ' + heading.magneticHeading + '<br />'+
+							'firstCheck: ' + firstCheck + '<br />'+
+							'startVal: ' + startVal + '<br />'+
+							'currVal: ' + currVal + '<br />'+
+							'difference: ' + difference + '<br />';
+		
     },
 	
 	// onError: Failed to get the acceleration
