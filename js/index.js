@@ -26,9 +26,6 @@ var app = {
     deviceready: function() {
         // This is an event handler function, which means the scope is the event.
         // So, we must explicitly called `app.report()` instead of `this.report()`.
-		var firstCheck = false;
-		var startVal;
-		var difference;
         app.report('deviceready');
     },
     report: function(id) {
@@ -42,78 +39,42 @@ var app = {
         var completeElem = document.querySelector('#' + id + ' .complete');
         completeElem.className = completeElem.className.split('hide').join('');
     },
-	// Start watching the acceleration
-	startWatch: function() {
-        // Report the event in the console
-		alert("firstCheck: ");
-		// Update acceleration every 3 seconds
-		var options = { frequency: 3000 };		
-		
-		watchID = navigator.compass.watchHeading(this.onSuccess, this.onError, options);
-		
-		firstCheck = true;
-		
-    },
-	
-	// Stop watching the acceleration
-	stopWatch: function() {
-        if (watchID) 
-		{
-			navigator.compass.clearWatch(watchID);
-			watchID = null;
-		}
-    },
-	
-	// onSuccess: Success to get the acceleration
-	onSuccess: function(heading) {
-        
-		currVal = heading.magneticHeading;	
-		
-		if(firstCheck)
-		{
-			startVal = currVal;
-		}
-			
-		firstCheck = false;
-		
-		difference = startVal-currVal;
-		
-		var element = document.getElementById('heading');
-        element.innerHTML = 'Heading: ' + heading.magneticHeading + '<br />';
-		
-		/*'firstCheck: ' + firstCheck + '<br />'+
-		'startVal: ' + startVal + '<br />'+
-		'currVal: ' + currVal + '<br />'+
-		'difference: ' + difference + '<br />'*/
-
-		app.onMoveBox();
-		
-    },	
 	
 	
-	// onError: Failed to get the acceleration
-	onError: function() {
-        alert('Compass error: ' + compassError.code);
-    },
 	
-	onMoveBox: function() {
-		
-		if (window.DeviceOrientationEvent) {
-		 alert("DeviceOrientation is supported");
-		} else if (window.OrientationEvent) {
-		 alert("MozOrientation is supported");
-		}else{
-			alert("Orientation is Not supported");
-		}
-		
+	startWatch: function(id) {
+        // Update acceleration every 3 seconds
+		var options = { frequency: 3000 };
+	
+		watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
+		var prevAcc;
+		var currAcc;
 	},
 	
-	deviceOrientationHandler: function(LR, FB, DIR) {
-		alert("deviceOrientationHandler");
-		 //for webkit browser
-		   document.getElementById("square").style.webkitTransform = "rotate("+ LR +"deg) rotate3d(1,0,0, "+ (FB*-1)+"deg)";
-		 
-		   //for HTML5 standard-compliance
-		   document.getElementById("square").style.transform = "rotate("+ LR +"deg) rotate3d(1,0,0, "+ (FB*-1)+"deg)";
+	stopWatch: function(id) {
+       if (watchID) {
+			navigator.accelerometer.clearWatch(watchID);
+			watchID = null;
+		}
+	},
+	
+	onSuccess: function(acceleration) {
+        
+		alert(currAcc);
+	
+		prevAcc = currAcc;
+		currAcc = acceleration;
+		
+		var element = document.getElementById("accelerometer");
+		element.innerHTML = 'Acceleration X: ' + Math.round(acceleration.x) + '<br />' +
+							'Acceleration Y: ' + Math.round(acceleration.y) + '<br />' +
+							'Acceleration Z: ' + Math.round(acceleration.z) + '<br />' +
+							'Timestamp: '      + Math.round(acceleration.timestamp) + '<br />';
+	},
+	
+	
+	onError: function() {
+       alert('onError!');
 	}
+	
 };

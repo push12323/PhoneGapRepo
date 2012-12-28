@@ -3,10 +3,10 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.test.accelerometer"
         version   = "2.0.0">
-    <name>Compass App</name>
+    <name>Accelerometer App</name>
 
     <description>
-        Compass Application that responds to the deviceready event.
+        Accelerometer Application that responds to the deviceready event.
     </description>
 
     <author href="http://chronostechnologies.com" email="info@chronostechnologies.com">
