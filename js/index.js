@@ -62,17 +62,34 @@ var app = {
 	
 	onSuccess: function(acceleration) {
         
-		//alert(currAcc);
-	
-		//prevAcc = currAcc;
-		currAcc = acceleration;
+ 		 
+		 // Display the raw acceleration data
+  		var rawAcceleration = "[" +  Math.round(acceleration.x) + ", " + 
+    	Math.round(acceleration.y) + ", " + Math.round(acceleration.z) + "]";
 		
-		var element = document.getElementById("accelerometer");
-		element.innerHTML = 'Acceleration X: ' + Math.round(acceleration.x) + '<br />' +
-							'currAcc Acceleration: ' + Math.round(currAcc.x)+"/"+ Math.round(prevAcc.x) + '<br />' +
-							'Acceleration Y: ' + Math.round(acceleration.y) + '<br />' +
-							'Acceleration Z: ' + Math.round(acceleration.z) + '<br />' +
-							'Timestamp: '      + Math.round(acceleration.timestamp) + '<br />';
+		// Z is the acceleration in the Z axis, and if the device is facing up or down
+	  var facingUp = -1;
+	  if (acceleration.z > 0) {
+		facingUp = +1;
+	  }
+	  
+	  // Convert the value from acceleration to degrees acceleration.x|y is the 
+	  // acceleration according to gravity, we'll assume we're on Earth and divide 
+	  // by 9.81 (earth gravity) to get a percentage value, and then multiply that 
+	  // by 90 to convert to degrees.                                
+	  var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
+	  var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 * facingUp);
+	  
+	  // Display the acceleration and calculated values
+	  document.getElementById("accelerometer").innerHTML = "rawAcceleration  :  "+rawAcceleration+"<br />"+
+	  "moCalcTiltLR  :  "+tiltLR+"<br />"+
+	  "moCalcTiltFB  :  "+tiltFB+"<br />";
+	  
+	  
+	  // Apply the 2D rotation and 3D rotation to the image
+	  var rotation = "rotate(" + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB) + "deg)";
+	  document.getElementById("square").style.webkitTransform = rotation;
+		 
 	},
 	
 	
