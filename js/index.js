@@ -64,7 +64,7 @@ var app = {
         
 		//alert(currAcc);
 	
-		prevAcc = currAcc;
+		//prevAcc = currAcc;
 		currAcc = acceleration;
 		
 		var element = document.getElementById("accelerometer");
