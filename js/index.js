@@ -96,7 +96,8 @@ var app = {
     },
 	
 	onMoveBox: function(difference) {
-		var box = $("#square");
-		$(box).css("left","+=difference");
+		var box = $("#square");		
+		var position = $(box).offset().left+difference;
+		$(box).offset({ left: position + difference});
 	}
 };
