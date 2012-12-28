@@ -79,13 +79,14 @@ var app = {
 		difference = startVal-currVal;
 		
 		var element = document.getElementById('heading');
-        element.innerHTML = 'Heading: ' + heading.magneticHeading + '<br />'+
-							'firstCheck: ' + firstCheck + '<br />'+
-							'startVal: ' + startVal + '<br />'+
-							'currVal: ' + currVal + '<br />'+
-							'difference: ' + difference + '<br />';
+        element.innerHTML = 'Heading: ' + heading.magneticHeading + '<br />';
 		
-		this.onMoveBox(difference);
+		/*'firstCheck: ' + firstCheck + '<br />'+
+		'startVal: ' + startVal + '<br />'+
+		'currVal: ' + currVal + '<br />'+
+		'difference: ' + difference + '<br />'*/
+
+		app.onMoveBox();
 		
     },	
 	
@@ -95,9 +96,28 @@ var app = {
         alert('Compass error: ' + compassError.code);
     },
 	
-	onMoveBox: function(difference) {
-		var box = $("#square");		
-		var position = $(box).offset().left+difference;
-		$(box).offset({ left: position + difference});
+	onMoveBox: function() {
+		
+		if (window.DeviceOrientationEvent) {
+		 alert("DeviceOrientation is supported");
+		  window.addEventListener('deviceorientation', function(eventData) {
+				var LR = eventData.gamma;
+				var FB = eventData.beta;
+				var DIR = eventData.alpha;
+				this.deviceOrientationHandler(LR, FB, DIR);
+			}, false);
+		} else {
+			alert("Not supported on your device or browser.  Sorry.");
+		}		
+		
+	},
+	
+	deviceOrientationHandler: function(LR, FB, DIR) {
+		alert("deviceOrientationHandler");
+		 //for webkit browser
+		   document.getElementById("square").style.webkitTransform = "rotate("+ LR +"deg) rotate3d(1,0,0, "+ (FB*-1)+"deg)";
+		 
+		   //for HTML5 standard-compliance
+		   document.getElementById("square").style.transform = "rotate("+ LR +"deg) rotate3d(1,0,0, "+ (FB*-1)+"deg)";
 	}
 };
