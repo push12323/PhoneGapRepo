@@ -43,11 +43,11 @@ var app = {
 	// Start watching the acceleration
 	startWatch: function() {
         // Report the event in the console
-        alert("firstCheck: " + firstCheck);
+		alert("firstCheck: ");
 		// Update acceleration every 3 seconds
 		var options = { frequency: 3000 };		
 		
-		watchID = navigator.compass.watchHeading(app.onSuccess, app.onError, options);
+		watchID = navigator.compass.watchHeading(app.onSuccess(), app.onError(), options);
 		firstCheck = true;
     },
 	
