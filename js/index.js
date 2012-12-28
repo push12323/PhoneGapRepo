@@ -85,10 +85,18 @@ var app = {
 							'currVal: ' + currVal + '<br />'+
 							'difference: ' + difference + '<br />';
 		
-    },
+		
+		
+    },	
+	
 	
 	// onError: Failed to get the acceleration
 	onError: function() {
         alert('Compass error: ' + compassError.code);
-    }
+    },
+	
+	onMoveBox: function(difference) {
+		var box = $("#square");
+		$(box).css("left","+=difference");
+	}
 };
