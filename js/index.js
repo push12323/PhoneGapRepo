@@ -85,7 +85,7 @@ var app = {
 							'currVal: ' + currVal + '<br />'+
 							'difference: ' + difference + '<br />';
 		
-		
+		this.onMoveBox(difference);
 		
     },	
 	
