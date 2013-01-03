@@ -1,17 +1,181 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-	<title>Mobile App</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link type="text/css" href="css/jquery/jquery.mobile-1.2.0.css" rel="stylesheet"/>
-	<link type="text/css" href="css/app.css" rel="stylesheet"/>
-	<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery/jquery.mobile-1.2.0.js"></script>
-	<script type="text/javascript" src="js/view/holder.js"></script>
-	<script type="text/javascript" src="js/view/headerDiv.js"></script>
-	<script type="text/javascript" src="js/view/contentDiv.js"></script>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+
+<style type="text/css">
+
+html,body
+{
+height:100%;
+width:100%;
+}
+#fruit_basket {
+width: 200px;
+height: 100px;
+border: 3px dashed #224163;
+background-image: url("http://static2.bigstockphoto.com/thumbs/3/2/3/small2/32351195.jpg");
+background-color: #AABACC;
+border-radius: 10px;
+}
+#vegi_basket{
+width: 200px;
+height: 100px;
+border: 3px dashed #224163;
+background-image: url("http://static6.bigstockphoto.com/thumbs/3/2/3/small2/32314826.jpg");
+background-color: #AABACC;
+border-radius: 10px;
+
+}
+
+#mainContainer
+{
+position:relative;
+border: 0px solid #000000;
+width:800px;
+height:600px;
+}
+
+#basketContainer
+{
+position:fixed;
+float:auto;
+}
+
+#fruitContainer
+{
+position:absolute;
+left:30%;
+top:50px;
+float:right;
+height:120px;
+width:200px;
+border: 3px solid #000000;
+}
+#fruitContainer img
+{
+width:50px;
+height:50px;
+margin: 0 5px 5px 0;
+}
+#vegiContainer
+{
+position:absolute;
+left:30%;
+top:250px;
+float:right;
+height:120px;
+width:200px;
+border: 3px solid #000000;
+}
+#vegiContainer img
+{
+width:50px;
+height:50px;
+margin: 0 5px 5px 0;
+}
+
+[draggable = true] {
+-khtml-user-drag: element;
+-webkit-user-drag: element;
+-khtml-user-select: none;
+-webkit-user-select: none;
+cursor: pointer;
+
+}​
+
+</style>
+
 </head>
+
 <body>
-	<div id="mainContainer"></div>
+
+<div id="mainContainer">
+<div id="fruitContainer">
+<img draggable="true"  ondragstart="onDragStartHandler(this, event);" width="50" height="50"  name="fruits"    id="fruit1" src="http://static9.bigstockphoto.com/thumbs/6/8/1/small2/18662309.jpg"/>
+<img draggable="true"  ondragstart="onDragStartHandler(this, event);"  width="50" height="50" name="fruits"    id="fruit2" src="http://static9.bigstockphoto.com/thumbs/5/7/1/small2/17541119.jpg"/>
+<img draggable="true"  ondragstart="onDragStartHandler(this, event);"  width="50" height="50" name="fruits"    id="fruit3" src="http://static4.bigstockphoto.com/thumbs/8/5/2/small2/25800164.jpg"/>
+</div>
+<div id="vegiContainer">
+<img draggable="true"  ondragstart="onDragStartHandler(this, event);"  width="50" height="50" name="vegitables"    id="vegi_1" src="http://static3.bigstockphoto.com/thumbs/7/2/1/small2/12735593.jpg"/>
+<img draggable="true"  ondragstart="onDragStartHandler(this, event);"  width="50" height="50" name="vegitables"    id="vegi_2" src="http://static0.bigstockphoto.com/thumbs/3/5/1/small2/153310.jpg"/>
+<img draggable="true"  ondragstart="onDragStartHandler(this, event);"  width="50" height="50" name="vegitables"    id="vegi_3" src="http://static6.bigstockphoto.com/thumbs/0/9/7/small2/790526.jpg"/>
+</div>
+
+<div id="basketContainer">
+<div id="fruit_basket" ondragover="onDragOverHandler(event);"
+ondrop="onDropHandler(this, event)" id="drop-div" style="background-image:url(file:///D|/Projects/Inhouse_Development/ApplicationTemplate/Template/images/dnd/fruit_basket.jpg); background-repeat:no-repeat"></div>
+
+<div id="vegi_basket" ondragover="onDragOverHandler(event);"
+ondrop="onDropHandler(this, event)" id="drop-div"></div>
+</div>
+
+<script type="text/javascript">
+	function onDragStartHandler(target, event)
+	{
+		/**
+		* set dragble image as target
+		*
+		*/
+		
+		event.dataTransfer.setData('imageID', target.id);
+		event.dataTransfer.setData('imageClass', target.name);
+			
+			//alert("target:- " + target.id + " event:- " + "  Name :- " + target.name)
+	
+	}
+	
+	function onDropHandler(target, event)
+	{
+		event.preventDefault();
+		var id = event.dataTransfer.getData('imageID');
+		var cateName = event.dataTransfer.getData('imageClass');
+		
+		//alert("target:- " + target.id + " event:- " + id + "  Name :- " + cateName)
+		
+		
+		if(target.id == "vegi_basket")
+		{
+			if(cateName == "vegitables")
+			{
+				target.appendChild(document.getElementById(id));
+			}
+		}
+		else if(target.id == "fruit_basket")
+		{
+			if(cateName == "fruits")
+			{
+				target.appendChild(document.getElementById(id));
+			}
+		}
+		else
+		{
+			event.preventDefault();
+			return false;
+		}
+	
+	}
+		
+	function onDragOverHandler(event)
+	{
+		preventDefaults(event);
+	}
+	
+	function preventDefaults(event)
+	{
+		if (event.preventDefault)
+		{
+			event.preventDefault();
+		}
+		try
+		{
+			event.returnValue = false;
+		}
+		catch (exception) {}
+		
+	}
+</script>
+</div>​
 </body>
 </html>
