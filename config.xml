@@ -3,7 +3,7 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.test.accelerometer"
         version   = "2.0.0">
-    <name>Accelerometer App</name>
+    <name>DragDrop App</name>
 
     <description>
         Accelerometer Application that responds to the deviceready event.
