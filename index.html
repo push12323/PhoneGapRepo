@@ -1,38 +1,54 @@
-<!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-<title>Untitled Document</title>
+  <head>
+    <meta charset=utf-8 />
+    <title>Drag n' drop touch demo - sewa.se</title>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <style type="text/css">
+      .draggable {
+        position: absolute;
+        left: 30px;
+        top: 30px;
+        width: 60px;
+        height: 60px;
+        margin-left: -30px;
+        margin-top: -30px;
 
-<style type="text/css">
+        color: #FFF;
+        font: bold 16px Helvetica,Arial,Sans-serif;
+        text-align: center;
+        background-color: #ABF;
+        border: 3px solid #669;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="draggable">Drag me!</div>
+    <div class="draggable">Drag me!</div>
+  </body>
+    <script type="text/javascript">
+      $.fn.draggable = function() {
+        var offset = null;
+        var start = function(e) {
+          var orig = e.originalEvent;
+          var pos = $(this).position();
+          offset = {
+            x: orig.changedTouches[0].pageX - pos.left,
+            y: orig.changedTouches[0].pageY - pos.top
+          };
+        };
+        var moveMe = function(e) {
+          e.preventDefault();
+          var orig = e.originalEvent;
+          $(this).css({
+            top: orig.changedTouches[0].pageY - offset.y,
+            left: orig.changedTouches[0].pageX - offset.x
+          });
+        };
+        this.bind("touchstart", start);
+        this.bind("touchmove", moveMe);
+      };
 
-
-</style>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-</head>
-
-<body>
-
-<div id="mainContainer">
-<div id="fruitContainer">
-<img src="http://static9.bigstockphoto.com/thumbs/6/8/1/small2/18662309.jpg"/>
-</div>
-
-<script type="text/javascript">
-	
-	
-	$(document).bind("touchstart touchmove", function(e) {
-	  //Disable scrolling by preventing default touch behaviour
-	  e.preventDefault();
-	  var orig = e.originalEvent;
-	  var x = orig.changedTouches[0].pageX;
-	  var y = orig.changedTouches[0].pageY;
-	  // Move a div with id "rect"
-	  $("#fruitContainer").css({top: y, left: x});
-	});
-	
-</script>
-</div>​
-</body>
+      $(".draggable").draggable();
+    </script>
 </html>
