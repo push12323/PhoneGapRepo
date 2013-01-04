@@ -33,7 +33,7 @@ function addEventListeners()
 
 function onHomeBooksClick()
 {
-    gotoMyBookScreen();
+    dragAndDropActivty();
 }
 
 function onHomeScoreClick()

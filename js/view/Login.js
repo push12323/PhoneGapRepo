@@ -23,13 +23,13 @@ function createLoginView()
 
 function onLoginSubmitClick()
 {
-     gotoHomeScreen();
-    /*if($("#login_user").val() == 'student' && $("#login_password").val() == 'student')
+	 gotoHomeScreen();
+    if($("#login_user").val() == 'student' && $("#login_password").val() == 'student')
     {
         gotoHomeScreen();    
     }
     else
     {
         alert("Please check your login and password!");
-    }*/
+    }
 }
