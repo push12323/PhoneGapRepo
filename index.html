@@ -62,13 +62,13 @@
             left: orig.changedTouches[0].pageX - offset.x
           });
 		  
-		  _dropTarget = document.elementFromPoint(event.touches[0].pageX,event.touches[0].pageY);
+		  _dropTarget = document.elementFromPoint(orig.changedTouches[0].pageX,orig.changedTouches[0].pageY);
 		 		  
         };
 		var dropMe = function(e) {
           e.preventDefault();
           alert("drop");
-		  alert(_dropTarget);
+		  alert(_dropTarget.id);
         };
         this.bind("touchstart", start);
         this.bind("touchmove", moveMe);
