@@ -1,8 +1,8 @@
 /**
  * @author prashant.raut
  */
+var quizPages = ["quiz_1.js", "quiz_2.js", "quiz_3.js", "quiz_4.js"];
 $(document).ready(init);
-
 function init()
 {
     console.log("init Called!");
@@ -20,14 +20,18 @@ function createMainContainer()
 
 function gotoHomeScreen()
 {
-    $("#appContainer").empty();
-    insertScript("js/view/home_screen.js");
+    loadPage("js/view/home_screen.js");
+    insertStyle("css/test.css");
 }
 
-function dragAndDropActivty()
+function gotoMyBookScreen()
+{  
+    loadPage("js/view/my_books.js");
+}
+
+function loadQuizEngin()
 {
-	$("#appContainer").empty();
-	insertScript("js/view/drag_drop_screen.js");
+    insertScript("js/engins/quiz_engin.js");    
 }
 
 function insertScript(script) {
@@ -35,4 +39,24 @@ function insertScript(script) {
     elem.type = 'text/javascript';
     elem.src = script;
     document.getElementsByTagName("head")[0].appendChild(elem);
+}
+
+function insertStyle(css){
+    //css has the format: selector{...style...}
+    var elem, 
+        cur = document.getElementById('_theme');
+    cur && cur.parentNode.removeChild(cur);
+
+    elem = document.createElement('link');
+    elem.type = "text/css";
+    elem.id = "_theme";
+    elem.rel = "stylesheet";
+    elem.href = css;
+    document.getElementsByTagName('head')[0].appendChild(elem);
+}
+
+function loadPage(script_path)
+{
+     $("#appContainer").empty();
+     insertScript(script_path);
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="author" content="prashant.raut" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <style>
+	.ui-jcoverflip {
+		position: relative;
+	}
+	  
+	.ui-jcoverflip--item {
+		position: absolute;
+		display: block;
+	}
+  </style>
+  <script src="js/jquery/jquery-1.8.3.min.js"></script>
+  <script src="js/jquery/jquery-ui-1.9.2.custom.min.js"></script>
+  <script src="js/jquery/jquery.jcoverflip.js"></script>
+  <script>
+  	$(function(){
+  		console.log("Here I am!");
+    	$('#flip').jcoverflip();
+	});
+  </script>
+</head>
+
+<body>
+  <ul id="flip">
+    <li><a href="#"><img src="assets/amitabh.jpg" /><span class="title">My title</span></a></li>
+    <li><a href="#"><img src="assets/business.jpg" /><span class="title">Another title</span></a></li>
+    <li><a href="#"><img src="assets/business.jpg" /><span class="title">Another title</span></a></li>
+    <li><a href="#"><img src="assets/business.jpg" /><span class="title">Another title</span></a></li>
+  </ul>
+</body>
+</html>
