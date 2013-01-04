@@ -13,6 +13,7 @@
         height: 60px;
         margin-left: -30px;
         margin-top: -30px;
+		z-index:1;
 
         color: #FFF;
         font: bold 16px Helvetica,Arial,Sans-serif;
@@ -47,8 +48,8 @@
     </style>
   </head>
   <body>
-    <div class="draggable" id="drag1">Drag 1</div>
-    <div class="draggable" id="drag2">Drag 2</div>
+    <div class="draggable" id="drag1" draggable="true">Drag 1</div>
+    <div class="draggable" id="drag2" draggable="true">Drag 2</div>
     <div class="dropable" id="dropTarget1">Drop on me! - Drag 1</div>
     <div class="dropable" id="dropTarget2">Drop on me! - Drag 2</div>
   </body>
@@ -60,11 +61,16 @@
           var orig = e.originalEvent;
           var pos = $(this).position();
           offset = {
-            x: orig.changedTouches[0].pageX - pos.left,
-            y: orig.changedTouches[0].pageY - pos.top
-		    //x: orig.pageX - pos.left,
-            //y: orig.pageY - pos.top
+            //x: orig.changedTouches[0].pageX - pos.left,
+            //y: orig.changedTouches[0].pageY - pos.top
+		    x: orig.pageX - pos.left,
+            y: orig.pageY - pos.top
+			
           };
+		  
+		  //$(this).bind("mousemove", moveMe);
+		  //$(this).bind("mouseup", dropMe);		  
+		  
         };
         var moveMe = function(e) {
           e.preventDefault();
@@ -76,12 +82,13 @@
             //left: orig.pageX - offset.x
           });
 		  
-		  _dropTarget = document.elementFromPoint(orig.pageX,orig.pageY);
+		  _dropTarget = document.elementFromPoint(orig.changedTouches[0].pageX,orig.changedTouches[0].pageY);
+		   alert(_dropTarget.id);
 		 		  
         };
 		var dropMe = function(e) {
           e.preventDefault();
-          
+         
 		  if(e.target.id == "drag1" && _dropTarget.id == "dropTarget1" || e.target.id == "drag2" && _dropTarget.id == "dropTarget2" )
 		  {
 			alert("Correct"); 
@@ -91,14 +98,14 @@
 			  });
 		  }
 		  
+		  //$(this).unbind("mousemove", moveMe);
+		  //$(this).unbind("mouseup", dropMe);
 		  
         };
         this.bind("touchstart", start);
         this.bind("touchmove", moveMe);
 		this.bind("touchend", dropMe);
-		//this.bind("mousedown", start);
-        //this.bind("mousemove", moveMe);
-		//this.bind("mouseleave", dropMe);
+		//this.bind("dragstart", start);
       };
 
       $(".draggable").draggable();
