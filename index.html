@@ -1,183 +1,265 @@
 <!doctype html>
-<html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-<title>Untitled Document</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drag Drop Activity</title>
+<link href="boilerplate.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<link href="css/activity.css" rel="stylesheet" type="text/css">
+<!-- 
+To learn more about the conditional comments around the html tags at the top of the file:
+paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
 
-<style type="text/css">
+Do the following if you're using your customized build of modernizr (http://www.modernizr.com/):
+* insert the link to your js here
+* remove the link below to the html5shiv
+* add the "no-js" class to the html tags at the top
+* you can also remove the link to respond.min.js if you included the MQ Polyfill in your modernizr build 
+-->
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script src="respond.min.js"></script>
+<!--<script src="activity.js"></script>-->
 
-html,body
-{
-height:100%;
-width:100%;
-}
-#fruit_basket {
-width: 200px;
-height: 100px;
-border: 3px dashed #224163;
-background-image: url("http://static2.bigstockphoto.com/thumbs/3/2/3/small2/32351195.jpg");
-background-color: #AABACC;
-border-radius: 10px;
-background-repeat:no-repeat;
-}
-#vegi_basket{
-width: 200px;
-height: 100px;
-border: 3px dashed #224163;
-background-image: url("http://static6.bigstockphoto.com/thumbs/3/2/3/small2/32314826.jpg");
-background-color: #AABACC;
-border-radius: 10px;
-background-repeat:no-repeat;
-}
-
-#mainContainer
-{
-position:relative;
-border: 0px solid #000000;
-width:800px;
-height:600px;
-}
-
-#basketContainer
-{
-position:fixed;
-float:auto;
-}
-
-#fruitContainer
-{
-	position: absolute;
-	left: 3px;
-	top: 225px;
-	float: right;
-	height: 51px;
-	width: 200px;
-	border: 3px solid #000000;
-}
-#fruitContainer img
-{
-width:50px;
-height:50px;
-margin: 0 5px 5px 0;
-}
-#vegiContainer
-{
-	position: absolute;
-	left: 3px;
-	top: 284px;
-	float: right;
-	height: 53px;
-	width: 200px;
-	border: 3px solid #000000;
-}
-#vegiContainer img
-{
-width:50px;
-height:50px;
-margin: 0 5px 5px 0;
-}
-
-[draggable = true] {
--khtml-user-drag: element;
--webkit-user-drag: element;
--khtml-user-select: none;
--webkit-user-select: none;
-cursor: pointer;
-
-}​
-
+<style>
+  body {
+	margin: 0px;
+	padding: 0px;
+  }
+  canvas {
+	border: 1px solid #9C9898;
+  }
 </style>
+<script src="http://www.html5canvastutorials.com/libraries/kinetic-v4.0.1.js"></script>
+<script>
+      function loadImages(sources, callback) {
+		  		 
+		var assetDir = "images/";
+        var images = {};
+        var loadedImages = 0;
+        var numImages = 0;
+        for(var src in sources) {
+          numImages++;
+        }
+        for(var src in sources) {		   
+          images[src] = new Image();
+          images[src].onload = function() {
+            if(++loadedImages >= numImages) {
+		       callback(images);
+            }
+          };
+          images[src].src = assetDir + sources[src];
+        }
+      }
+	  
+      function isNearOutline(object, outline) {
+        var a = object;
+        var o = outline;
+        if(a.attrs.x > o.x - 50 && a.attrs.x < o.x + 50 && a.attrs.y > o.y - 50 && a.attrs.y < o.y + 50) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+      function drawBackground(background, background_image, text) {
+
+        var canvas = background.getCanvas();
+        var context = background.getContext();
+
+        context.drawImage(background_image, 0, 0);
+        context.font = "20pt Calibri";
+        context.textAlign = "center";
+        context.fillStyle = "white";
+        context.fillText(text, background.getStage().getWidth() / 2, 40);
+      }
+      function initStage(images) {
+		
+        var stage = new Kinetic.Stage({
+          container: "container",
+          width: 480,
+          height: 320
+        });
+        var background = new Kinetic.Layer();
+        var objectLayer = new Kinetic.Layer();
+        var objectShapes = [];
+        var score = 0;
+
+        // image positions
+        var objects = {
+          object1: {
+            x: 5,
+            y: 60
+          },
+          object2: {
+            x: 130,
+            y: 60
+          },
+          object3: {
+            x: 255,
+            y: 60
+          },
+          object4: {
+            x: 380,
+            y: 60
+          },
+        };
+
+        var outlines = {
+          object1_border: {
+            x: 5,
+            y: 200
+          },
+          object2_border: {
+            x: 130,
+            y: 200
+          },
+          object3_border: {
+            x: 255,
+            y: 200
+          },
+          object4_border: {
+            x: 380,
+            y: 200
+          },
+        };
+
+        // create draggable objects
+        for(var key in objects) {
+          // anonymous function to induce scope
+          (function() {
+            var privKey = key;
+            var obj = objects[key];
+
+            var object = new Kinetic.Image({
+              image: images[key],
+              x: obj.x,
+              y: obj.y,
+              draggable: true
+            });
+            
+            object.createImageBuffer();
+
+            object.on("dragstart", function() {
+              object.moveToTop();
+              objectLayer.draw();
+			  object.orgX = object.attrs.x;
+			  object.orgY = object.attrs.y;
+            });
+            /*
+             * check if object is in the right spot and
+             * snap into place if it is
+             */
+            object.on("dragend", function() {
+              var outline = outlines[privKey + "_border"];
+              if(!object.inRightPlace && isNearOutline(object, outline)) {
+                object.attrs.x = outline.x;
+                object.attrs.y = outline.y;
+                objectLayer.draw();
+                // disable drag and drop
+                object.setDraggable(false);
+                object.inRightPlace = true;
+
+                if(++score >= 4) {
+                  var text = "You win!"
+                  drawBackground(background, images.background_image, text);
+                }
+              }
+			  else
+			  {
+				  object.attrs.x = object.orgX;
+				  object.attrs.y = object.orgY;
+				  
+				  objectLayer.draw();
+				  
+				  object.orgX = object.attrs.x;
+			  	  object.orgY = object.attrs.y;
+			  }
+            });
+            // make object glow on mouseover
+            object.on("mouseover", function() {
+              object.setImage(images[privKey + "_glow"]);
+              objectLayer.draw();
+              document.body.style.cursor = "pointer";
+            });
+            // return object on mouseout
+            object.on("mouseout", function() {
+              object.setImage(images[privKey]);
+              objectLayer.draw();
+              document.body.style.cursor = "default";
+            });
+
+            object.on("dragmove", function() {
+              document.body.style.cursor = "pointer";
+            });
+
+            objectLayer.add(object);
+            objectShapes.push(object);
+          })();
+        }
+
+        // create object outlines
+        for(var key in outlines) {
+          // anonymous function to induce scope
+          (function() {
+            var imageObj = images[key];
+            var out = outlines[key];
+
+            var outline = new Kinetic.Image({
+              image: imageObj,
+              x: out.x,
+              y: out.y
+            });
+
+            objectLayer.add(outline);
+          })();
+        }
+
+        stage.add(background);
+        stage.add(objectLayer);
+
+        drawBackground(background, images.background_image, "Put the Square in their container");
+      }
+
+      window.onload = function() {
+		  
+        var sources = {
+          background_image: "background.jpg",
+		  
+          object1: "object1.jpg",
+          object1_glow: "object1-glow.jpg",
+          object1_border: "object1-border.jpg",
+         
+          object2: "object2.jpg",
+          object2_glow: "object2-glow.jpg",
+          object2_border: "object2-border.jpg",
+          
+          object3: "object3.jpg",
+          object3_glow: "object3-glow.jpg",
+          object3_border: "object3-border.jpg",
+         
+          object4: "object4.jpg",
+          object4_glow: "object4-glow.jpg",
+          object4_border: "object4-border.jpg",
+        };
+        loadImages(sources, initStage);
+      };
+
+    </script>
 
 </head>
-
 <body>
-
-<div id="mainContainer">
-<div id="fruitContainer">
-<img draggable="true"  ondragstart="onDragStartHandler(this, event);" width="50" height="50"  name="fruits"    id="fruit1" src="http://static9.bigstockphoto.com/thumbs/6/8/1/small2/18662309.jpg"/>
-<img draggable="true"  ondragstart="onDragStartHandler(this, event);"  width="50" height="50" name="fruits"    id="fruit2" src="http://static9.bigstockphoto.com/thumbs/5/7/1/small2/17541119.jpg"/>
-<img draggable="true"  ondragstart="onDragStartHandler(this, event);"  width="50" height="50" name="fruits"    id="fruit3" src="http://static4.bigstockphoto.com/thumbs/8/5/2/small2/25800164.jpg"/>
+<div class="gridContainer clearfix">
+  <div id="LayoutDiv1">
+  	<div id="container"></div>
+  </div>
 </div>
-<div id="vegiContainer">
-<img draggable="true"  ondragstart="onDragStartHandler(this, event);"  width="50" height="50" name="vegitables"    id="vegi_1" src="http://static3.bigstockphoto.com/thumbs/7/2/1/small2/12735593.jpg"/>
-<img draggable="true"  ondragstart="onDragStartHandler(this, event);"  width="50" height="50" name="vegitables"    id="vegi_2" src="http://static0.bigstockphoto.com/thumbs/3/5/1/small2/153310.jpg"/>
-<img draggable="true"  ondragstart="onDragStartHandler(this, event);"  width="50" height="50" name="vegitables"    id="vegi_3" src="http://static6.bigstockphoto.com/thumbs/0/9/7/small2/790526.jpg"/>
-</div>
-
-<div id="basketContainer">
-<div id="fruit_basket" ondragover="onDragOverHandler(event);"
-ondrop="onDropHandler(this, event)" id="drop-div" style="background-image:url(file:///D|/Projects/Inhouse_Development/ApplicationTemplate/Template/images/dnd/fruit_basket.jpg); background-repeat:no-repeat"></div>
-
-<div id="vegi_basket" ondragover="onDragOverHandler(event);"
-ondrop="onDropHandler(this, event)" id="drop-div"></div>
-</div>
-
-<script type="text/javascript">
-	function onDragStartHandler(target, event)
-	{
-		/**
-		* set dragble image as target
-		*
-		*/
-		
-		event.dataTransfer.setData('imageID', target.id);
-		event.dataTransfer.setData('imageClass', target.name);
-			
-			//alert("target:- " + target.id + " event:- " + "  Name :- " + target.name)
-	
-	}
-	
-	function onDropHandler(target, event)
-	{
-		event.preventDefault();
-		var id = event.dataTransfer.getData('imageID');
-		var cateName = event.dataTransfer.getData('imageClass');
-		
-		//alert("target:- " + target.id + " event:- " + id + "  Name :- " + cateName)
-		
-		
-		if(target.id == "vegi_basket")
-		{
-			if(cateName == "vegitables")
-			{
-				target.appendChild(document.getElementById(id));
-			}
-		}
-		else if(target.id == "fruit_basket")
-		{
-			if(cateName == "fruits")
-			{
-				target.appendChild(document.getElementById(id));
-			}
-		}
-		else
-		{
-			event.preventDefault();
-			return false;
-		}
-	
-	}
-		
-	function onDragOverHandler(event)
-	{
-		preventDefaults(event);
-	}
-	
-	function preventDefaults(event)
-	{
-		if (event.preventDefault)
-		{
-			event.preventDefault();
-		}
-		try
-		{
-			event.returnValue = false;
-		}
-		catch (exception) {}
-		
-	}
-</script>
-</div>​
 </body>
 </html>
