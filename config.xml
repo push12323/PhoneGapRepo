@@ -3,10 +3,10 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.test.accelerometer"
         version   = "2.0.0">
-    <name>Template App</name>
+    <name>Shake Event Application</name>
 
     <description>
-        Template Application that responds to the deviceready event.
+        Shake Event Application that responds to the deviceready event.
     </description>
 
     <author href="http://chronostechnologies.com" email="info@chronostechnologies.com">
