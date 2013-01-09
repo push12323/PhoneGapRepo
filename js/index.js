@@ -65,11 +65,7 @@ function stopWatch() {
 // onSuccess: Get a snapshot of the current acceleration
 //
 function onSuccess(acceleration) {
-	var element = document.getElementById("accelerometer");
-	element.innerHTML = 'Acceleration X: ' + acceleration.x + '<br />' +
-						'Acceleration Y: ' + acceleration.y + '<br />' +
-						'Acceleration Z: ' + acceleration.z + '<br />' +
-						'Timestamp: '      + acceleration.timestamp + '<br />';
+	
 	var current = 	acceleration;
 	var threshold = 1.5;
 	
@@ -81,11 +77,16 @@ function onSuccess(acceleration) {
 	deltaY = Math.abs(current.y);
 	deltaZ = Math.abs(current.z);
 	
-	
-	if ((deltaX > threshold) || (deltaZ > threshold) || (deltaY > threshold) ) 
+	if (((deltaX > threshold) && (deltaY > threshold)) || ((deltaX > threshold) && (deltaZ > threshold)) || ((deltaY > threshold) && (deltaZ > threshold))) 
 	{
 		alert("Shake Event !!!")
 	}
+	
+	var element = document.getElementById("accelerometer");
+	element.innerHTML = 'Acceleration X: ' + deltaX + '<br />' +
+						'Acceleration Y: ' + deltaY + '<br />' +
+						'Acceleration Z: ' + deltaZ + '<br />' +
+						'Timestamp: '      + threshold + '<br />';
 }
 
 // onError: Failed to get the acceleration
