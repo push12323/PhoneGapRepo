@@ -43,14 +43,18 @@
                 }
                 navigator.accelerometer.watchAcceleration(function (acceleration) {
                   var changes = {},
-                  bound = 0.2;
+                  bound = 1.5;
 				  
                   if (previousReading.x !== null) {
                       changes.x = Math.abs(previousReading.x, acceleration.x);
                       changes.y = Math.abs(previousReading.y, acceleration.y);
                       changes.z = Math.abs(previousReading.z, acceleration.z);
                   }
-                  if (changes.x > bound && changes.y > bound && changes.z > bound) {
+				  
+				  document.getElementById("reading").innerHTML = changes.x;
+				  
+				  
+                  if (changes.x > bound) {
                     shaken();
                   }
                   previousReading = {
@@ -58,7 +62,7 @@
 					  y: acceleration.y,
 					  z: acceleration.z
                   }
-                  }, onError, { frequency: 2000 });
+                  }, onError, { frequency: 1000 });
             }
             function shaken(){
                 alert("Shaken");
@@ -71,6 +75,7 @@
     </head>
     <body>
        
+       <div id="reading" style="padding:250px 100px; position:relative">Reading</div>
         
     </body>
 </html>
