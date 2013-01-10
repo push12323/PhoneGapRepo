@@ -43,7 +43,7 @@
                 }
                 navigator.accelerometer.watchAcceleration(function (acceleration) {
                   var changes = {},
-                  bound = 1.5;
+                  bound = 5;
 				  
                   if (previousReading.x !== null) {
                       changes.x = Math.abs(previousReading.x, acceleration.x);
@@ -51,8 +51,9 @@
                       changes.z = Math.abs(previousReading.z, acceleration.z);
                   }
 				  
-				  document.getElementById("reading").innerHTML = changes.x;
-				  
+				  document.getElementById("reading").innerHTML = changes.x + "<br />"+
+				  												 changes.y + "<br />"+
+				  												 changes.z;
 				  
                   if (changes.x > bound) {
                     shaken();
