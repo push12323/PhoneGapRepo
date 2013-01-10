@@ -46,9 +46,9 @@
                   bound = 5;
 				  
                   if (previousReading.x !== null) {
-                      changes.x = Math.abs(previousReading.x, acceleration.x);
-                      changes.y = Math.abs(previousReading.y, acceleration.y);
-                      changes.z = Math.abs(previousReading.z, acceleration.z);
+                      changes.x = Math.abs(previousReading.x-acceleration.x);
+                      changes.y = Math.abs(previousReading.y-acceleration.y);
+                      changes.z = Math.abs(previousReading.z-acceleration.z);
                   }
 				  
 				  document.getElementById("reading").innerHTML = changes.x + "<br />"+
