@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.test.accelerometer"
+        id        = "com.phonegap.hello-world"
         version   = "2.0.0">
-    <name>Shake Event Application</name>
+    <name>Video Test</name>
 
     <description>
-        Shake Event Application that responds to the deviceready event.
+        Video Test sample application that responds to the deviceready event.
     </description>
 
-    <author href="http://chronostechnologies.com" email="info@chronostechnologies.com">
+    <author href="http://phonegap.com" email="support@phonegap.com">
         PhoneGap Team
     </author>
 
-    <feature name="http://api.chronostechnologies.com/1.0/device" />
+    <feature name="http://api.phonegap.com/1.0/device" />
 
     <preference name="phonegap-version" value="2.0.0" />
     <preference name="orientation"      value="default" />

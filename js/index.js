@@ -17,8 +17,7 @@
  * under the License.
  */
 var app = {
-	
-	initialize: function() {
+    initialize: function() {
         this.bind();
     },
     bind: function() {
@@ -39,81 +38,5 @@ var app = {
         document.querySelector('#' + id + ' .pending').className += ' hide';
         var completeElem = document.querySelector('#' + id + ' .complete');
         completeElem.className = completeElem.className.split('hide').join('');
-    },
-	
-	// Start watching the acceleration
-	 startWatch: function() {
-		var previousReading = {
-			x: null,
-			y: null,
-			z: null
-		}
-		navigator.accelerometer.watchAcceleration(function (acceleration) {
-		  var changes = {},
-		  bound = 0.2;
-		  if (previousReading.x !== null) {
-			  changes.x = Math.abs(previousReading.x, acceleration.x);
-			  changes.y = Math.abs(previousReading.y, acceleration.y);
-			  changes.z = Math.abs(previousReading.z, acceleration.z);
-		  }
-		  alert(changes.x)
-		  if (changes.x > bound && changes.y > bound && changes.z > bound) {
-			this.shaken();
-		  }
-		  previousReading = {
-			  x: reading.x,
-			  y: reading.y,
-			  z: reading.z
-		  }
-		  }, this.onError, { frequency: 1000 });
-	},
-	
-	
-	// Stop watching the acceleration
-	//
-	stopWatch: function () {
-		if (watchID) {
-			navigator.accelerometer.clearWatch(watchID);
-			watchID = null;
-		}
-	},
-	
-	
-	// onSuccess: Get a snapshot of the current acceleration
-	//
-	onSuccess: function (acceleration) {
-		var changes = {},
-		bound = 0.2;
-		
-		if (previousReading.x !== null) 
-		{
-			changes.x = Math.abs(previousReading.x, acceleration.x);
-			changes.y = Math.abs(previousReading.y, acceleration.y);
-			changes.z = Math.abs(previousReading.z, acceleration.z);
-		}
-		  
-	  	if (changes.x > bound && changes.y > bound && changes.z > bound) {
-			shaken();
-	  	}
-		
-		previousReading = {
-		  x: reading.x,
-		  y: reading.y,
-		  z: reading.z
-		}
-	},
-	
-	shaken: function ()
-	{
-       alert("Shake");
-    },
-	
-	
-	// onError: Failed to get the acceleration
-	//
-	onError: function () {
-		alert('onError!');
-	}
-
+    }
 };
-
