@@ -6,7 +6,15 @@
     <title>PhoneGap</title>
       <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
       <script type="text/javascript" charset="utf-8" src="video.js"></script>
-		<script type="text/javascript">
+		  
+ 
+  </head>
+  <body onload="init();">
+    <a href="#" onclick="playVideo('http://www.w3schools.com/html/mov_bbb.mp4')">Play HTTP</a><p/>
+    <a href="#" onclick="playVideo('video.mp4')">Play File</a><p/>
+    <div id="video-container">Video Player</div>
+    
+    <script type="text/javascript">
             
         function init(){  
             document.addEventListener("deviceready", console.log('ready'), true);
@@ -14,14 +22,8 @@
          
         function playVideo(vidUrl) {		
             
-            window.plugins.videoPlayer.play(src);
+            window.plugins.videoPlayer.play(vidUrl);
         }
-        </script>  
- 
-  </head>
-  <body onload="init();">
-    <a href="#" onclick="playVideo('http://www.w3schools.com/html/mov_bbb.mp4')">Play HTTP</a><p/>
-    <a href="#" onclick="playVideo('video.mp4')">Play File</a><p/>
-    <div id="video-container">Video Player</div>
+        </script>
   </body>
 </html>
