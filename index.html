@@ -14,10 +14,7 @@
          
         function playVideo(vidUrl) {
 			
-            if (device.platform == 'Android') {
-                src = '/android_asset/www/' + vidUrl;
-            }
-			alert(vidUrl+"-"+src);
+            
             window.plugins.videoPlayer.play(src);
         }
         </script>  
