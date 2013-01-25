@@ -12,8 +12,7 @@
             document.addEventListener("deviceready", console.log('ready'), true);
         }
          
-        function playVideo(vidUrl) {
-			
+        function playVideo(vidUrl) {		
             
             window.plugins.videoPlayer.play(src);
         }
@@ -22,7 +21,7 @@
   </head>
   <body onload="init();">
     <a href="#" onclick="playVideo('http://www.w3schools.com/html/mov_bbb.mp4')">Play HTTP</a><p/>
-    <a href="#" onclick="playVideo('mov_bbb.mp4')">Play File</a><p/>
-    <div id="video-container">Video</div>
+    <a href="#" onclick="playVideo('video.mp4')">Play File</a><p/>
+    <div id="video-container">Video Player</div>
   </body>
 </html>
